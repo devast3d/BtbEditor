@@ -69,6 +69,18 @@
     <Compile Include="RegionControl.Designer.cs">
       <DependentUpon>RegionControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="RegionFlagsControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="RegionFlagsControl.Designer.cs">
+      <DependentUpon>RegionFlagsControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="RegionFlagsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="RegionFlagsForm.Designer.cs">
+      <DependentUpon>RegionFlagsForm.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -86,6 +98,12 @@
     </Compile>
     <EmbeddedResource Include="RegionControl.resx">
       <DependentUpon>RegionControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RegionFlagsControl.resx">
+      <DependentUpon>RegionFlagsControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RegionFlagsForm.resx">
+      <DependentUpon>RegionFlagsForm.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

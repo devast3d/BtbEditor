@@ -55,5 +55,33 @@ namespace BtbUI
 				_segments_listView.Items.Add(item);
 			}
 		}
+
+		private void ShowPropertyEditor(int propertyIndex)
+		{
+			switch (propertyIndex)
+			{
+				case 0:
+					{
+						//TODO
+					}
+					break;
+
+				case 1:
+					{
+						RegionFlagsForm dialog = new RegionFlagsForm();
+						dialog.SetData(_region);
+						dialog.ShowDialog();
+					}
+					break;
+			}
+		}
+
+		private void _properties_listView_DoubleClick(object sender, EventArgs e)
+		{
+			if (_properties_listView.SelectedIndices.Count > 0)
+			{
+				ShowPropertyEditor(_properties_listView.SelectedIndices[0]);
+			}
+		}
 	}
 }

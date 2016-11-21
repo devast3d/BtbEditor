@@ -49,11 +49,13 @@
 			this._properties_listView.FullRowSelect = true;
 			this._properties_listView.GridLines = true;
 			this._properties_listView.Location = new System.Drawing.Point(0, 0);
+			this._properties_listView.MultiSelect = false;
 			this._properties_listView.Name = "_properties_listView";
 			this._properties_listView.Size = new System.Drawing.Size(352, 58);
 			this._properties_listView.TabIndex = 0;
 			this._properties_listView.UseCompatibleStateImageBehavior = false;
 			this._properties_listView.View = System.Windows.Forms.View.Details;
+			this._properties_listView.DoubleClick += new System.EventHandler(this._properties_listView_DoubleClick);
 			// 
 			// columnHeader1
 			// 
@@ -85,6 +87,7 @@
 			this._segments_listView.FullRowSelect = true;
 			this._segments_listView.GridLines = true;
 			this._segments_listView.Location = new System.Drawing.Point(0, 77);
+			this._segments_listView.MultiSelect = false;
 			this._segments_listView.Name = "_segments_listView";
 			this._segments_listView.Size = new System.Drawing.Size(352, 227);
 			this._segments_listView.TabIndex = 2;
