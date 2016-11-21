@@ -470,6 +470,7 @@ namespace BtbUI
 
 			Image image = new Bitmap(width, height);
 			Graphics graphics = Graphics.FromImage(image);
+			graphics.FillRectangle(new SolidBrush(Color.Black), new Rectangle(0, 0, width, height));
 
 			BTBLib.Region battleBoundary = null;
 			List<BTBLib.Region> boundaries = new List<BTBLib.Region>();
@@ -494,24 +495,45 @@ namespace BtbUI
 				}
 			}
 
-			System.Drawing.Region graphicsRegion = new System.Drawing.Region(new Rectangle(0, 0, width, height));
-
 			if (battleBoundary == null)
 			{
 				return;
 			}
 
-			Point[] points = new Point[battleBoundary.Lines.Count];
-			for (int i = 0; i < points.Length; ++i)
-			{
-				var segment = battleBoundary.Lines[i];
-				points[i] = new Point(segment.StartX / 8, segment.EndX / 8);
-			}
-			GraphicsPath graphicsPath = new GraphicsPath();
-			graphicsPath.AddPolygon(points);
-			graphicsRegion.Intersect(graphicsPath);
+			boundaries.Insert(0, battleBoundary);			
 
-			graphics.FillRectangle(new SolidBrush(Color.Black), new Rectangle(0, 0, width, height));
+			System.Drawing.Region graphicsRegion = new System.Drawing.Region(new Rectangle(0, 0, width, height));
+
+			foreach (BTBLib.Region region in boundaries)
+			{
+				Point[] points = new Point[region.Lines.Count];
+				for (int i = 0; i < points.Length; ++i)
+				{
+					var segment = region.Lines[i];
+					points[i] = new Point(segment.StartX / 8, height - segment.StartY / 8);
+				}
+
+				GraphicsPath graphicsPath = new GraphicsPath();
+				graphicsPath.AddPolygon(points);
+
+				graphicsRegion.Intersect(graphicsPath);
+			}
+
+			foreach (BTBLib.Region region in inverseBoundaries)
+			{
+				Point[] points = new Point[region.Lines.Count];
+				for (int i = 0; i < points.Length; ++i)
+				{
+					var segment = region.Lines[i];
+					points[i] = new Point(segment.StartX / 8, height - segment.StartY / 8);
+				}
+
+				GraphicsPath graphicsPath = new GraphicsPath();
+				graphicsPath.AddPolygon(points);
+
+				graphicsRegion.Exclude(graphicsPath);
+			}
+
 			graphics.FillRegion(new SolidBrush(Color.Red), graphicsRegion);
 
 			Form form = new Form();
