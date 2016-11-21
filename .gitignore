@@ -1,0 +1,11 @@
+BTBLib/bin/Debug/
+BTBLib/obj
+
+BtbUI/bin/Debug/
+BtbUI/obj
+
+BtbUI/bin/Release/BtbUI.vshost.exe
+*.config
+*.manifest
+BtbUI/bin/Release/BTBLib.pdb
+BtbUI/bin/Release/BtbUI.pdb
