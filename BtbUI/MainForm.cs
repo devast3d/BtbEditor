@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
+using System.Drawing.Drawing2D;
 
 namespace BtbUI
 {
@@ -96,6 +97,8 @@ namespace BtbUI
 
 		private float _regionPenWidth;
 		private float _regionPointSize;
+		private bool _fillSelectedRegion;
+
 		private float _gridSize;
 		private bool _drawGrid;
 
@@ -119,6 +122,7 @@ namespace BtbUI
 			SetRegionPointSize(3.0f);
 			SetGridSize(10.0f);
 			SetDrawGrid(true);
+			SetFillSelectedRegion(false);
 
 			_draw_panel.MouseWheel += _draw_panel_MouseWheel;
 			_battle_treeView.AfterCheck += _battle_treeView_AfterCheck;
@@ -272,12 +276,19 @@ namespace BtbUI
 			graphics.DrawLine(pen, range, 0, -range, 0);
 		}
 
-		private void DrawRegion(Graphics graphics, Color color, bool drawPoints, BTBLib.Region region)
+		private void DrawRegion(Graphics graphics, Color color, bool drawPoints, bool fill, BTBLib.Region region)
 		{
 			Pen pen = new Pen(color, _regionPenWidth / _zoom);
 			Brush brush = new SolidBrush(color);
-			foreach (var segment in region.Lines)
+			Point[] points = null;
+			bool shouldFill = fill && region.IsClosed;
+			if (shouldFill)
 			{
+				points = new Point[region.Lines.Count];
+			}
+			for (int i = 0; i < region.Lines.Count; ++i)
+			{
+				var segment = region.Lines[i];
 				int startX = segment.StartX / 8;
 				int startY = (_battle.Height - segment.StartY) / 8;
 				int endX = segment.EndX / 8;
@@ -286,6 +297,10 @@ namespace BtbUI
 				if (drawPoints)
 				{
 					graphics.FillRectangle(brush, startX - _regionPointSize / 2, startY - _regionPointSize / 2, _regionPointSize, _regionPointSize);
+				}
+				if (shouldFill)
+				{
+					points[i] = new Point(startX, startY);
 				}
 			}
 			if (drawPoints)
@@ -296,6 +311,23 @@ namespace BtbUI
 					int endX = segment.EndX / 8;
 					int endY = (_battle.Height - segment.EndY) / 8;
 					graphics.FillRectangle(brush, endX - _regionPointSize / 2, endY - _regionPointSize / 2, _regionPointSize, _regionPointSize);
+				}
+			}
+			if (shouldFill)
+			{
+				Brush regionBrush = new SolidBrush(Color.FromArgb(128, color.R, color.G, color.B));
+				if (region.IsBoundaryInversed)
+				{
+					System.Drawing.Region graphicsRegion = new System.Drawing.Region();
+					graphicsRegion.MakeInfinite();
+					GraphicsPath path = new GraphicsPath();
+					path.AddPolygon(points);
+					graphicsRegion.Exclude(path);
+					graphics.FillRegion(regionBrush, graphicsRegion);
+				}
+				else
+				{
+					graphics.FillPolygon(regionBrush, points);
 				}
 			}
 		}
@@ -327,15 +359,15 @@ namespace BtbUI
 			{
 				foreach (BTBLib.Region region in _drawData.RegionsToDraw)
 				{
-					DrawRegion(graphics, Color.White, false, region);
+					DrawRegion(graphics, Color.White, false, false, region);
 				}
-				if (_selectedRegion != null &&  _drawData.ContainsRegion(_selectedRegion))
+				if (_selectedRegion != null && _drawData.ContainsRegion(_selectedRegion))
 				{
-					DrawRegion(graphics, Color.FromArgb(200, 0, 0), true, _selectedRegion);
+					DrawRegion(graphics, Color.FromArgb(200, 0, 0), true, _fillSelectedRegion, _selectedRegion);
 				}
 				if (_highlightedRegion != null && _highlightedRegion != _selectedRegion && _drawData.ContainsRegion(_highlightedRegion))
 				{
-					DrawRegion(graphics, Color.FromArgb(255, 0, 0), false, _highlightedRegion);
+					DrawRegion(graphics, Color.FromArgb(255, 0, 0), false, false, _highlightedRegion);
 				}
 			}
 		}
@@ -366,7 +398,7 @@ namespace BtbUI
 				Redraw();
 			}
 		}
-		
+
 		private void SelectAllRegions()
 		{
 			_drawData.ClearRegions();
@@ -411,6 +443,85 @@ namespace BtbUI
 			_drawData.ClearRegions();
 			UpdateTreeViewRegions();
 			Redraw();
+		}
+
+		private void SetFillSelectedRegion(bool value)
+		{
+			if (value != _fillSelectedRegion)
+			{
+				_fillSelectedRegion = value;
+				if (_fillSelectedRegion != _regionFillSelected_checkBox.Checked)
+				{
+					_regionFillSelected_checkBox.Checked = _fillSelectedRegion;
+				}
+				Redraw();
+			}
+		}
+
+		private void CalcWalkableArea()
+		{
+			if (_battle == null)
+			{
+				return;
+			}
+
+			int width = _battle.Width / 8;
+			int height = _battle.Height / 8;
+
+			Image image = new Bitmap(width, height);
+			Graphics graphics = Graphics.FromImage(image);
+
+			BTBLib.Region battleBoundary = null;
+			List<BTBLib.Region> boundaries = new List<BTBLib.Region>();
+			List<BTBLib.Region> inverseBoundaries = new List<BTBLib.Region>();
+
+			foreach (BTBLib.Region region in _battle.Regions)
+			{
+				if (region.IsClosed)
+				{
+					if (region.IsBattleBoundary)
+					{
+						battleBoundary = region;
+					}
+					else if (region.IsBoundaryInversed)
+					{
+						inverseBoundaries.Add(region);
+					}
+					else if (region.IsBoundary)
+					{
+						boundaries.Add(region);
+					}
+				}
+			}
+
+			System.Drawing.Region graphicsRegion = new System.Drawing.Region(new Rectangle(0, 0, width, height));
+
+			if (battleBoundary == null)
+			{
+				return;
+			}
+
+			Point[] points = new Point[battleBoundary.Lines.Count];
+			for (int i = 0; i < points.Length; ++i)
+			{
+				var segment = battleBoundary.Lines[i];
+				points[i] = new Point(segment.StartX / 8, segment.EndX / 8);
+			}
+			GraphicsPath graphicsPath = new GraphicsPath();
+			graphicsPath.AddPolygon(points);
+			graphicsRegion.Intersect(graphicsPath);
+
+			graphics.FillRectangle(new SolidBrush(Color.Black), new Rectangle(0, 0, width, height));
+			graphics.FillRegion(new SolidBrush(Color.Red), graphicsRegion);
+
+			Form form = new Form();
+			form.ClientSize = new Size(width * 3, height * 3);
+			PictureBox pictureBox = new PictureBox();
+			pictureBox.Image = image;
+			pictureBox.SizeMode = PictureBoxSizeMode.Zoom;
+			form.Controls.Add(pictureBox);
+			pictureBox.Dock = DockStyle.Fill;
+			form.Show();
 		}
 
 		private void UpdateTreeViewRegions()
@@ -695,17 +806,7 @@ namespace BtbUI
 				_panning = false;
 			}
 		}
-
-
-		private void _regionPenWidth_numericUpDown_ValueChanged(object sender, EventArgs e)
-		{
-			SetRegionPenWidth((float)_regionPenWidth_numericUpDown.Value);
-		}
-
-		private void _regionPointSize_numericUpDown_ValueChanged(object sender, EventArgs e)
-		{
-			SetRegionPointSize((float)_regionPointSize_numericUpDown.Value);
-		}
+				
 
 		private void _regionSelectAll_button_Click(object sender, EventArgs e)
 		{
@@ -727,6 +828,26 @@ namespace BtbUI
 			DeselectAllRegions();
 		}
 		
+		private void _regionFillSelected_checkBox_CheckedChanged(object sender, EventArgs e)
+		{
+			SetFillSelectedRegion(_regionFillSelected_checkBox.Checked);
+		}
+		
+		private void _calcWalkable_button_Click(object sender, EventArgs e)
+		{
+			CalcWalkableArea();
+		}
+
+		private void _regionPenWidth_numericUpDown_ValueChanged(object sender, EventArgs e)
+		{
+			SetRegionPenWidth((float)_regionPenWidth_numericUpDown.Value);
+		}
+
+		private void _regionPointSize_numericUpDown_ValueChanged(object sender, EventArgs e)
+		{
+			SetRegionPointSize((float)_regionPointSize_numericUpDown.Value);
+		}
+
 
 		private void _canvasDrawGrid_checkBox_CheckedChanged(object sender, EventArgs e)
 		{

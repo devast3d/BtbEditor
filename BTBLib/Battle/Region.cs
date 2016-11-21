@@ -34,11 +34,19 @@ namespace BTBLib
 		}
 
         public bool IsClosed { get { return (Flags & 2) != 0; } }
-        public string Name { get; set; }
+		public bool IsOpen { get { return (Flags & 4) != 0; } }
+		public bool IsBoundaryInversed { get { return (Flags & 16) != 0; } }
+		public bool IsBattleBoundary { get { return (Flags & 32) != 0; } }
+		public bool IsBoundary { get { return (Flags & 128) != 0; } }
+		public bool IsP1DeployArea { get { return (Flags & 256) != 0; } }
+		public bool IsP2DeployArea { get { return (Flags & 512) != 0; } }
+		public bool IsVisibleArea { get { return (Flags & 1024) != 0; } }
+
+		public string Name { get; set; }
         public List<LineSegment> Lines {get; private set;}
         public USAGE Usage { get; set; }
 		public uint Flags;
-
+		
         public Region(string name, uint flags)
         {
             this.Lines = new List<LineSegment>();
