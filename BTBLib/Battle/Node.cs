@@ -9,7 +9,7 @@ namespace BTBLib
         public int X { get; set; }
         public int Y { get; set; }
         public uint Radius { get; set; }
-        public uint Direction { get; set; }
+        public int Direction { get; set; }
         public uint NodeID { get; set; }
         public uint UnitID { get; set; }
         public uint ScriptFunc { get; set; }
@@ -26,7 +26,7 @@ namespace BTBLib
         public Node(int x, 
                     int y, 
                     uint radius, 
-                    uint direction, 
+                    int direction, 
                     uint nodeID, 
                     uint UUID, 
                     uint scriptFunc,
