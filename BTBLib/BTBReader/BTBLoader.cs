@@ -119,28 +119,8 @@ namespace BTBLib
                 uint uuid = (uint)reader.ReadIntTupleProperty(12, 1)[0];
                 uint scriptid = (uint)reader.ReadIntTupleProperty(13, 1)[0];
 
-                Node N;
-                switch (flags)
-                {
-                    case 3: 
-                        N = new Node(x, y, rad, dir, nodeid, uuid, scriptid, Node.USAGE.UNKNOWN2);
-                        break;
-
-                    case 5:
-                        N = new Node(x, y, rad, dir, nodeid, uuid, scriptid, Node.USAGE.UNKNOWN4);
-                        break;
-
-                    case 16387:
-                        N = new Node(x, y, rad, dir, nodeid, uuid, scriptid, Node.USAGE.DEPLOYMENT);
-                        break;
-
-                    case 1:
-                        N = new Node(x, y, rad, dir, nodeid, uuid, scriptid, Node.USAGE.NONE);
-                        break;
-
-                    default:
-                        throw new UnknownNodeTypeException();
-                }
+                Node N = new Node(x, y, rad, dir, nodeid, uuid, scriptid, (Node.USAGE)flags);
+                
                 battle.Nodes.Add(N);
             }
         }
