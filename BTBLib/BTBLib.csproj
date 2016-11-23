@@ -48,6 +48,8 @@
     <Compile Include="Battle\Region.cs" />
     <Compile Include="BTBReader\BTBLoader.cs" />
     <Compile Include="BTBReader\BTBReader.cs" />
+    <Compile Include="BTBWriter\BTBSaver.cs" />
+    <Compile Include="BTBWriter\BTBWriter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

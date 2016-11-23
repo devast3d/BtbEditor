@@ -79,7 +79,7 @@ namespace BTBLib
                 int rad = reader.ReadIntTupleProperty(6, 1)[0];
                 int dir = reader.ReadIntTupleProperty(7, 1)[0];
                 Obstacle.PROP P = (Obstacle.PROP)flags;
-                battle.Obstacles.Add(new Obstacle(P, x, y, z, (uint)rad));
+                battle.Obstacles.Add(new Obstacle(P, x, y, z, (uint)rad, dir));
             }
         }
 
@@ -114,7 +114,7 @@ namespace BTBLib
                 int x = reader.ReadIntTupleProperty(1, 1)[0];
                 int y = reader.ReadIntTupleProperty(2, 1)[0];
                 uint rad = (uint)reader.ReadIntTupleProperty(6, 1)[0];
-                uint dir = (uint)reader.ReadIntTupleProperty(7, 1)[0];
+                int dir = reader.ReadIntTupleProperty(7, 1)[0];
                 uint nodeid = (uint)reader.ReadIntTupleProperty(11, 1)[0];
                 uint uuid = (uint)reader.ReadIntTupleProperty(12, 1)[0];
                 uint scriptid = (uint)reader.ReadIntTupleProperty(13, 1)[0];

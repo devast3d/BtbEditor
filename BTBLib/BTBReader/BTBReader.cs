@@ -38,7 +38,6 @@ namespace BTBLib
             return text;
         }
 
-
         public void ReadPropertyHeader(uint checkTypecode, 
                                        uint checkLength)
         {

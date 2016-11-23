@@ -9,3 +9,5 @@ BtbUI/bin/Release/BtbUI.vshost.exe
 *.manifest
 BtbUI/bin/Release/BTBLib.pdb
 BtbUI/bin/Release/BtbUI.pdb
+BTBLib/.vs/BTBEdit/v14/.suo
+*.suo

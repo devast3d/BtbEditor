@@ -13,14 +13,16 @@ namespace BTBLib
         public int Y { get; set; }
         public int Z { get; set; }
         public uint Radius { get; set; }
+        public int Dir { get; set; }
 
-        public Obstacle(PROP properties, int x, int y, int z, uint radius)
+        public Obstacle(PROP properties, int x, int y, int z, uint radius, int dir)
         {
             this.Properties = properties;
             this.X = x;
             this.Y = y;
             this.Z = z;
             this.Radius = radius;
+            this.Dir = dir;
         }
     }
 }
