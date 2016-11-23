@@ -239,6 +239,7 @@ namespace BtbUI
 
 			EnableRedraw();
 			Redraw();
+            _save_button.Enabled = true;
 		}
 
 
@@ -911,5 +912,15 @@ namespace BtbUI
 		{
 			ResetTransform();
 		}
-	}
+
+        private void _save_button_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog dialog = new SaveFileDialog();
+            dialog.Filter = "btb files (*.btb)|*.btb|All files(*.*)|*.*";
+            if (dialog.ShowDialog() == DialogResult.OK)
+            {
+                BTBLib.BTBSaver.Save(this._battle, dialog.FileName);
+            }
+        }
+    }
 }
