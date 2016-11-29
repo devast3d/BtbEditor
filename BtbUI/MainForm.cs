@@ -537,14 +537,18 @@ namespace BtbUI
 
 			graphics.FillRegion(new SolidBrush(Color.Red), graphicsRegion);
 
-			Form form = new Form();
-			form.ClientSize = new Size(width * 3, height * 3);
-			PictureBox pictureBox = new PictureBox();
-			pictureBox.Image = image;
-			pictureBox.SizeMode = PictureBoxSizeMode.Zoom;
-			form.Controls.Add(pictureBox);
-			pictureBox.Dock = DockStyle.Fill;
-			form.Show();
+			//Form form = new Form();
+			//form.ClientSize = new Size(width * 3, height * 3);
+			//PictureBox pictureBox = new PictureBox();
+			//pictureBox.Image = image;
+			//pictureBox.SizeMode = PictureBoxSizeMode.Zoom;
+			//form.Controls.Add(pictureBox);
+			//pictureBox.Dock = DockStyle.Fill;
+			//form.Show();
+
+			ImageForm form = new ImageForm();
+			form.SetImage(image);
+			form.ShowDialog();
 		}
 
 		private void UpdateTreeViewRegions()

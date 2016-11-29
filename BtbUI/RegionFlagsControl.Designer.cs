@@ -175,9 +175,9 @@
 			this.label6.AutoSize = true;
 			this.label6.Location = new System.Drawing.Point(3, 153);
 			this.label6.Name = "label6";
-			this.label6.Size = new System.Drawing.Size(77, 13);
+			this.label6.Size = new System.Drawing.Size(95, 13);
 			this.label6.TabIndex = 23;
-			this.label6.Text = "Movement 1/2";
+			this.label6.Text = "Movement Inverse";
 			// 
 			// label7
 			// 
@@ -229,27 +229,27 @@
 			this.label9.AutoSize = true;
 			this.label9.Location = new System.Drawing.Point(3, 240);
 			this.label9.Name = "label9";
-			this.label9.Size = new System.Drawing.Size(77, 13);
+			this.label9.Size = new System.Drawing.Size(93, 13);
 			this.label9.TabIndex = 32;
-			this.label9.Text = "Movement 2/2";
+			this.label9.Text = "Movement Normal";
 			// 
 			// label10
 			// 
 			this.label10.AutoSize = true;
 			this.label10.Location = new System.Drawing.Point(3, 269);
 			this.label10.Name = "label10";
-			this.label10.Size = new System.Drawing.Size(79, 13);
+			this.label10.Size = new System.Drawing.Size(101, 13);
 			this.label10.TabIndex = 33;
-			this.label10.Text = "P1 Deployment";
+			this.label10.Text = "Player1 Deployment";
 			// 
 			// label11
 			// 
 			this.label11.AutoSize = true;
 			this.label11.Location = new System.Drawing.Point(3, 298);
 			this.label11.Name = "label11";
-			this.label11.Size = new System.Drawing.Size(79, 13);
+			this.label11.Size = new System.Drawing.Size(101, 13);
 			this.label11.TabIndex = 34;
-			this.label11.Text = "P2 Deployment";
+			this.label11.Text = "Player2 Deployment";
 			// 
 			// _visible_checkBox
 			// 
