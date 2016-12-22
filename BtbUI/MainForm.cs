@@ -18,6 +18,8 @@ namespace BtbUI
 			Obstacle,
 			Regions,
 			Region,
+			GameObjects,
+			GameObject
 		}
 
 		private class TagData
@@ -31,6 +33,11 @@ namespace BtbUI
 				Link = link;
 			}
 
+			public BTBLib.Obstacle GetObstacleLink()
+			{
+				return NodeType == NodeTypes.Obstacle ? (BTBLib.Obstacle)Link : null;
+			}
+
 			public BTBLib.Region GetRegionLink()
 			{
 				return NodeType == NodeTypes.Region ? (BTBLib.Region)Link : null;
@@ -39,15 +46,61 @@ namespace BtbUI
 
 		private class DrawData
 		{
+			private List<BTBLib.Obstacle> _obstaclesToDraw;
 			private List<BTBLib.Region> _regionsToDraw;
 
+
+			public bool DrawObstacels { get; set; }
+			public IList<BTBLib.Obstacle> ObstacelsToDraw { get { return _obstaclesToDraw; } }
 			public bool DrawRegions { get; set; }
 			public IList<BTBLib.Region> RegionsToDraw { get { return _regionsToDraw; } }
 
+
 			public DrawData()
 			{
+				_obstaclesToDraw = new List<BTBLib.Obstacle>();
 				_regionsToDraw = new List<BTBLib.Region>();
 			}
+
+
+			public void AddObstacle(BTBLib.Obstacle value)
+			{
+				if (!_obstaclesToDraw.Contains(value))
+				{
+					_obstaclesToDraw.Add(value);
+				}
+			}
+
+			public void RemoveObstacle(BTBLib.Obstacle value)
+			{
+				if (_obstaclesToDraw.Contains(value))
+				{
+					_obstaclesToDraw.Remove(value);
+				}
+			}
+
+			public void SetObstacle(bool show, BTBLib.Obstacle value)
+			{
+				if (show)
+				{
+					AddObstacle(value);
+				}
+				else
+				{
+					RemoveObstacle(value);
+				}
+			}
+
+			public bool ContainsObstacle(BTBLib.Obstacle value)
+			{
+				return _obstaclesToDraw.Contains(value);
+			}
+
+			public void ClearObstacles()
+			{
+				_obstaclesToDraw.Clear();
+			}
+
 
 			public void AddRegion(BTBLib.Region value)
 			{
@@ -86,6 +139,13 @@ namespace BtbUI
 			{
 				_regionsToDraw.Clear();
 			}
+
+
+			public void Clear()
+			{
+				ClearObstacles();
+				ClearRegions();
+			}
 		}
 
 
@@ -115,6 +175,7 @@ namespace BtbUI
 			InitializeComponent();
 
 			_drawData = new DrawData();
+			_drawData.DrawObstacels = true;
 			_drawData.DrawRegions = true;
 
 			ResetTransform();
@@ -151,6 +212,13 @@ namespace BtbUI
 
 		private void FindAndLoadBackground(string path)
 		{
+			string mapPath = path + "/map.bmp";
+			if (File.Exists(mapPath))
+			{
+				LoadBackground(mapPath);
+				return;
+			}
+
 			string[] files = Directory.GetFiles(path, "*.bmp");
 			if (files.Length > 0)
 			{
@@ -198,6 +266,21 @@ namespace BtbUI
 				TreeNode regionNode = regionsNode.Nodes.Add(region.Name);
 				regionNode.Tag = new TagData(NodeTypes.Region, region);
 			}
+
+			TreeNode gameObjectsNode = nodes.Add("Game Objects");
+			gameObjectsNode.Tag = new TagData(NodeTypes.GameObjects, null);
+			gameObjectsNode.Checked = true;
+
+			foreach (BTBLib.Node gameObject in _battle.Nodes)
+			{
+				TreeNode gameObjetctNode = gameObjectsNode.Nodes.Add("GameObject");
+				gameObjetctNode.Tag = new TagData(NodeTypes.GameObject, gameObject);
+			}
+		}
+
+		private TreeNode GetObstaclesNode()
+		{
+			return _battle_treeView.Nodes[2];
 		}
 
 		private TreeNode GetRegionsNode()
@@ -226,10 +309,12 @@ namespace BtbUI
 			DisableRedraw();
 
 			_battle = battle;
-			_drawData.ClearRegions();
+			_drawData.Clear();
 
 			_region_groupBox.Enabled = true;
+			_obstacle_groupBox.Enabled = true;
 			_current_textBox.Text = path;
+			_background = null;
 			FindAndLoadBackground(Path.GetDirectoryName(path));
 			SetHighlightedRegion(null);
 			SetSelectedRegion(null);
@@ -333,6 +418,20 @@ namespace BtbUI
 			}
 		}
 
+		private void DrawObstacle(Graphics graphics, Color color, bool fill, BTBLib.Obstacle obstacle)
+		{
+			Pen pen = new Pen(color, 2.0f / _zoom);
+
+			float radius = obstacle.Radius;// * 2;
+			float size = radius * 2;
+
+			int div = 8;
+			graphics.DrawEllipse(pen, (obstacle.X - radius) / div, (_battle.Height - obstacle.Y - radius) / div, size / div, size / div);
+			//graphics.DrawRectangle(pen, (obstacle.X - radius) / 8, (_battle.Height - obstacle.Y - radius) / 8, size, size);
+
+			graphics.FillRectangle(new SolidBrush(color), (obstacle.X) / 8f - 0.5f, (_battle.Height - obstacle.Y) / 8f - 0.5f, 1f, 1f);
+		}
+
 		private void Draw(Graphics graphics)
 		{
 			if (_battle == null)
@@ -370,6 +469,89 @@ namespace BtbUI
 				{
 					DrawRegion(graphics, Color.FromArgb(255, 0, 0), false, false, _highlightedRegion);
 				}
+			}
+
+			if (_drawData.DrawObstacels)
+			{
+				foreach (BTBLib.Obstacle obstacle in _drawData.ObstacelsToDraw)
+				{
+					Color c;
+					if (obstacle.IsMoveBlock && obstacle.IsProjBlock)
+					{
+						c = Color.Purple;
+					}
+					else if (obstacle.IsMoveBlock)
+					{
+						c = Color.Red;
+					}
+					else if (obstacle.IsProjBlock)
+					{
+						c = Color.Blue;
+					}
+					else
+					{
+						c = Color.Black;
+					}
+					DrawObstacle(graphics, c, false, obstacle);
+				}
+			}
+		}
+
+
+		private void SelectAllObstacles()
+		{
+			_drawData.ClearObstacles();
+			foreach (BTBLib.Obstacle obstacle in _battle.Obstacles)
+			{
+				_drawData.AddObstacle(obstacle);
+			}
+			UpdateTreeViewObstacles();
+			Redraw();
+		}
+
+		private void SelectAllMoveBlockObstacles()
+		{
+			_drawData.ClearObstacles();
+			foreach (BTBLib.Obstacle obstacle in _battle.Obstacles)
+			{
+				if (obstacle.IsMoveBlock)
+				{
+					_drawData.AddObstacle(obstacle);
+				}
+			}
+			UpdateTreeViewObstacles();
+			Redraw();
+		}
+
+		private void SelectAllProjBlockObstacles()
+		{
+			_drawData.ClearObstacles();
+			foreach (BTBLib.Obstacle obstacle in _battle.Obstacles)
+			{
+				if (obstacle.IsProjBlock)
+				{
+					_drawData.AddObstacle(obstacle);
+				}
+			}
+			UpdateTreeViewObstacles();
+			Redraw();
+		}
+
+		private void DeselectAllObstacles()
+		{
+			_drawData.ClearObstacles();
+			UpdateTreeViewObstacles();
+			Redraw();
+		}
+
+		private void UpdateTreeViewObstacles()
+		{
+			TreeNode obstaclesNode = GetObstaclesNode();
+			foreach (TreeNode node in obstaclesNode.Nodes)
+			{
+				TagData tagData = node.Tag as TagData;
+				BTBLib.Obstacle obstacle = tagData.GetObstacleLink();
+				node.Checked = _drawData.ContainsObstacle(obstacle);
 			}
 		}
 
@@ -697,6 +879,10 @@ namespace BtbUI
 
 				switch (nodeType)
 				{
+					case NodeTypes.Obstacles:
+						_drawData.DrawObstacels = check;
+						break;
+
 					case NodeTypes.Regions:
 						_drawData.DrawRegions = check;
 						break;
@@ -833,7 +1019,28 @@ namespace BtbUI
 				_panning = false;
 			}
 		}
-				
+
+
+		private void _obstacleSelectAll_button_Click(object sender, EventArgs e)
+		{
+			SelectAllObstacles();
+		}
+
+		private void _obstacleSelectMove_button_Click(object sender, EventArgs e)
+		{
+			SelectAllMoveBlockObstacles();
+		}
+
+		private void _obstacleSelectProj_button_Click(object sender, EventArgs e)
+		{
+			SelectAllProjBlockObstacles();
+		}
+
+		private void _obstacleDeselectAll_button_Click(object sender, EventArgs e)
+		{
+			DeselectAllObstacles();
+		}
+
 
 		private void _regionSelectAll_button_Click(object sender, EventArgs e)
 		{
@@ -926,5 +1133,5 @@ namespace BtbUI
                 BTBLib.BTBSaver.Save(this._battle, dialog.FileName);
             }
         }
-    }
+	}
 }

@@ -15,7 +15,10 @@ namespace BTBLib
         public uint Radius { get; set; }
         public int Dir { get; set; }
 
-        public Obstacle(PROP properties, int x, int y, int z, uint radius, int dir)
+		public bool IsMoveBlock { get { return (Properties & PROP.MOVE_BLOCK) == PROP.MOVE_BLOCK; } }
+		public bool IsProjBlock { get { return (Properties & PROP.PROJ_BLOCK) == PROP.PROJ_BLOCK; } }
+
+		public Obstacle(PROP properties, int x, int y, int z, uint radius, int dir)
         {
             this.Properties = properties;
             this.X = x;
