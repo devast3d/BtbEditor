@@ -64,15 +64,17 @@
 			this._canvasGridSize_label = new System.Windows.Forms.Label();
 			this._toolbar_tabControl = new System.Windows.Forms.TabControl();
 			this._actions_tabPage = new System.Windows.Forms.TabPage();
+			this._delimeter0_panel = new System.Windows.Forms.Panel();
+			this._obstacle_groupBox = new System.Windows.Forms.GroupBox();
+			this._obstacleDeselectAll_button = new System.Windows.Forms.Button();
+			this._obstacleSelectProj_button = new System.Windows.Forms.Button();
+			this._obstacleSelectMove_button = new System.Windows.Forms.Button();
+			this._obstacleSelectAll_button = new System.Windows.Forms.Button();
 			this._options_tabPage = new System.Windows.Forms.TabPage();
 			this._optionsDraw_groupBox = new System.Windows.Forms.GroupBox();
 			this._save_button = new System.Windows.Forms.Button();
-			this._obstacle_groupBox = new System.Windows.Forms.GroupBox();
-			this._delimeter0_panel = new System.Windows.Forms.Panel();
-			this._obstacleSelectAll_button = new System.Windows.Forms.Button();
-			this._obstacleSelectMove_button = new System.Windows.Forms.Button();
-			this._obstacleSelectProj_button = new System.Windows.Forms.Button();
-			this._obstacleDeselectAll_button = new System.Windows.Forms.Button();
+			this._regionSelectDeploy1_button = new System.Windows.Forms.Button();
+			this._regionSelectDeploy2_button = new System.Windows.Forms.Button();
 			this._draw_panel = new BtbUI.AntiFlickerPanel();
 			this._main_panel.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this._main_splitContainer)).BeginInit();
@@ -92,9 +94,9 @@
 			((System.ComponentModel.ISupportInitialize)(this._canvasGridSize_numericUpDown)).BeginInit();
 			this._toolbar_tabControl.SuspendLayout();
 			this._actions_tabPage.SuspendLayout();
+			this._obstacle_groupBox.SuspendLayout();
 			this._options_tabPage.SuspendLayout();
 			this._optionsDraw_groupBox.SuspendLayout();
-			this._obstacle_groupBox.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// _open_button
@@ -383,6 +385,8 @@
 			// 
 			// _region_groupBox
 			// 
+			this._region_groupBox.Controls.Add(this._regionSelectDeploy2_button);
+			this._region_groupBox.Controls.Add(this._regionSelectDeploy1_button);
 			this._region_groupBox.Controls.Add(this._calcWalkable_button);
 			this._region_groupBox.Controls.Add(this._regionFillSelected_checkBox);
 			this._region_groupBox.Controls.Add(this._regionSelectAllOpen_button);
@@ -421,7 +425,7 @@
 			// 
 			// _regionSelectAllOpen_button
 			// 
-			this._regionSelectAllOpen_button.Location = new System.Drawing.Point(218, 19);
+			this._regionSelectAllOpen_button.Location = new System.Drawing.Point(430, 19);
 			this._regionSelectAllOpen_button.Name = "_regionSelectAllOpen_button";
 			this._regionSelectAllOpen_button.Size = new System.Drawing.Size(100, 23);
 			this._regionSelectAllOpen_button.TabIndex = 15;
@@ -441,7 +445,7 @@
 			// 
 			// _regionDeselectAll_button
 			// 
-			this._regionDeselectAll_button.Location = new System.Drawing.Point(323, 19);
+			this._regionDeselectAll_button.Location = new System.Drawing.Point(535, 19);
 			this._regionDeselectAll_button.Name = "_regionDeselectAll_button";
 			this._regionDeselectAll_button.Size = new System.Drawing.Size(100, 23);
 			this._regionDeselectAll_button.TabIndex = 13;
@@ -547,6 +551,69 @@
 			this._actions_tabPage.Text = "Actions";
 			this._actions_tabPage.UseVisualStyleBackColor = true;
 			// 
+			// _delimeter0_panel
+			// 
+			this._delimeter0_panel.Dock = System.Windows.Forms.DockStyle.Left;
+			this._delimeter0_panel.Location = new System.Drawing.Point(434, 3);
+			this._delimeter0_panel.Name = "_delimeter0_panel";
+			this._delimeter0_panel.Size = new System.Drawing.Size(5, 77);
+			this._delimeter0_panel.TabIndex = 13;
+			// 
+			// _obstacle_groupBox
+			// 
+			this._obstacle_groupBox.Controls.Add(this._obstacleDeselectAll_button);
+			this._obstacle_groupBox.Controls.Add(this._obstacleSelectProj_button);
+			this._obstacle_groupBox.Controls.Add(this._obstacleSelectMove_button);
+			this._obstacle_groupBox.Controls.Add(this._obstacleSelectAll_button);
+			this._obstacle_groupBox.Dock = System.Windows.Forms.DockStyle.Left;
+			this._obstacle_groupBox.Enabled = false;
+			this._obstacle_groupBox.Location = new System.Drawing.Point(3, 3);
+			this._obstacle_groupBox.Name = "_obstacle_groupBox";
+			this._obstacle_groupBox.Size = new System.Drawing.Size(431, 77);
+			this._obstacle_groupBox.TabIndex = 12;
+			this._obstacle_groupBox.TabStop = false;
+			this._obstacle_groupBox.Text = "Obstacle";
+			// 
+			// _obstacleDeselectAll_button
+			// 
+			this._obstacleDeselectAll_button.Location = new System.Drawing.Point(324, 19);
+			this._obstacleDeselectAll_button.Name = "_obstacleDeselectAll_button";
+			this._obstacleDeselectAll_button.Size = new System.Drawing.Size(100, 23);
+			this._obstacleDeselectAll_button.TabIndex = 22;
+			this._obstacleDeselectAll_button.Text = "Deselect All";
+			this._obstacleDeselectAll_button.UseVisualStyleBackColor = true;
+			this._obstacleDeselectAll_button.Click += new System.EventHandler(this._obstacleDeselectAll_button_Click);
+			// 
+			// _obstacleSelectProj_button
+			// 
+			this._obstacleSelectProj_button.Location = new System.Drawing.Point(218, 19);
+			this._obstacleSelectProj_button.Name = "_obstacleSelectProj_button";
+			this._obstacleSelectProj_button.Size = new System.Drawing.Size(100, 23);
+			this._obstacleSelectProj_button.TabIndex = 21;
+			this._obstacleSelectProj_button.Text = "Select All Proj";
+			this._obstacleSelectProj_button.UseVisualStyleBackColor = true;
+			this._obstacleSelectProj_button.Click += new System.EventHandler(this._obstacleSelectProj_button_Click);
+			// 
+			// _obstacleSelectMove_button
+			// 
+			this._obstacleSelectMove_button.Location = new System.Drawing.Point(112, 19);
+			this._obstacleSelectMove_button.Name = "_obstacleSelectMove_button";
+			this._obstacleSelectMove_button.Size = new System.Drawing.Size(100, 23);
+			this._obstacleSelectMove_button.TabIndex = 20;
+			this._obstacleSelectMove_button.Text = "Select All Move";
+			this._obstacleSelectMove_button.UseVisualStyleBackColor = true;
+			this._obstacleSelectMove_button.Click += new System.EventHandler(this._obstacleSelectMove_button_Click);
+			// 
+			// _obstacleSelectAll_button
+			// 
+			this._obstacleSelectAll_button.Location = new System.Drawing.Point(6, 19);
+			this._obstacleSelectAll_button.Name = "_obstacleSelectAll_button";
+			this._obstacleSelectAll_button.Size = new System.Drawing.Size(100, 23);
+			this._obstacleSelectAll_button.TabIndex = 20;
+			this._obstacleSelectAll_button.Text = "Select All";
+			this._obstacleSelectAll_button.UseVisualStyleBackColor = true;
+			this._obstacleSelectAll_button.Click += new System.EventHandler(this._obstacleSelectAll_button_Click);
+			// 
 			// _options_tabPage
 			// 
 			this._options_tabPage.Controls.Add(this._optionsDraw_groupBox);
@@ -585,68 +652,25 @@
 			this._save_button.UseVisualStyleBackColor = true;
 			this._save_button.Click += new System.EventHandler(this._save_button_Click);
 			// 
-			// _obstacle_groupBox
+			// _regionSelectDeploy1_button
 			// 
-			this._obstacle_groupBox.Controls.Add(this._obstacleDeselectAll_button);
-			this._obstacle_groupBox.Controls.Add(this._obstacleSelectProj_button);
-			this._obstacle_groupBox.Controls.Add(this._obstacleSelectMove_button);
-			this._obstacle_groupBox.Controls.Add(this._obstacleSelectAll_button);
-			this._obstacle_groupBox.Dock = System.Windows.Forms.DockStyle.Left;
-			this._obstacle_groupBox.Enabled = false;
-			this._obstacle_groupBox.Location = new System.Drawing.Point(3, 3);
-			this._obstacle_groupBox.Name = "_obstacle_groupBox";
-			this._obstacle_groupBox.Size = new System.Drawing.Size(431, 77);
-			this._obstacle_groupBox.TabIndex = 12;
-			this._obstacle_groupBox.TabStop = false;
-			this._obstacle_groupBox.Text = "Obstacle";
+			this._regionSelectDeploy1_button.Location = new System.Drawing.Point(218, 19);
+			this._regionSelectDeploy1_button.Name = "_regionSelectDeploy1_button";
+			this._regionSelectDeploy1_button.Size = new System.Drawing.Size(100, 23);
+			this._regionSelectDeploy1_button.TabIndex = 20;
+			this._regionSelectDeploy1_button.Text = "Select Deploy1";
+			this._regionSelectDeploy1_button.UseVisualStyleBackColor = true;
+			this._regionSelectDeploy1_button.Click += new System.EventHandler(this._regionSelectDeploy1_button_Click);
 			// 
-			// _delimeter0_panel
+			// _regionSelectDeploy2_button
 			// 
-			this._delimeter0_panel.Dock = System.Windows.Forms.DockStyle.Left;
-			this._delimeter0_panel.Location = new System.Drawing.Point(434, 3);
-			this._delimeter0_panel.Name = "_delimeter0_panel";
-			this._delimeter0_panel.Size = new System.Drawing.Size(5, 77);
-			this._delimeter0_panel.TabIndex = 13;
-			// 
-			// _obstacleSelectAll_button
-			// 
-			this._obstacleSelectAll_button.Location = new System.Drawing.Point(6, 19);
-			this._obstacleSelectAll_button.Name = "_obstacleSelectAll_button";
-			this._obstacleSelectAll_button.Size = new System.Drawing.Size(100, 23);
-			this._obstacleSelectAll_button.TabIndex = 20;
-			this._obstacleSelectAll_button.Text = "Select All";
-			this._obstacleSelectAll_button.UseVisualStyleBackColor = true;
-			this._obstacleSelectAll_button.Click += new System.EventHandler(this._obstacleSelectAll_button_Click);
-			// 
-			// _obstacleSelectMove_button
-			// 
-			this._obstacleSelectMove_button.Location = new System.Drawing.Point(112, 19);
-			this._obstacleSelectMove_button.Name = "_obstacleSelectMove_button";
-			this._obstacleSelectMove_button.Size = new System.Drawing.Size(100, 23);
-			this._obstacleSelectMove_button.TabIndex = 20;
-			this._obstacleSelectMove_button.Text = "Select All Move";
-			this._obstacleSelectMove_button.UseVisualStyleBackColor = true;
-			this._obstacleSelectMove_button.Click += new System.EventHandler(this._obstacleSelectMove_button_Click);
-			// 
-			// _obstacleSelectProj_button
-			// 
-			this._obstacleSelectProj_button.Location = new System.Drawing.Point(218, 19);
-			this._obstacleSelectProj_button.Name = "_obstacleSelectProj_button";
-			this._obstacleSelectProj_button.Size = new System.Drawing.Size(100, 23);
-			this._obstacleSelectProj_button.TabIndex = 21;
-			this._obstacleSelectProj_button.Text = "Select All Proj";
-			this._obstacleSelectProj_button.UseVisualStyleBackColor = true;
-			this._obstacleSelectProj_button.Click += new System.EventHandler(this._obstacleSelectProj_button_Click);
-			// 
-			// _obstacleDeselectAll_button
-			// 
-			this._obstacleDeselectAll_button.Location = new System.Drawing.Point(324, 19);
-			this._obstacleDeselectAll_button.Name = "_obstacleDeselectAll_button";
-			this._obstacleDeselectAll_button.Size = new System.Drawing.Size(100, 23);
-			this._obstacleDeselectAll_button.TabIndex = 22;
-			this._obstacleDeselectAll_button.Text = "Deselect All";
-			this._obstacleDeselectAll_button.UseVisualStyleBackColor = true;
-			this._obstacleDeselectAll_button.Click += new System.EventHandler(this._obstacleDeselectAll_button_Click);
+			this._regionSelectDeploy2_button.Location = new System.Drawing.Point(324, 19);
+			this._regionSelectDeploy2_button.Name = "_regionSelectDeploy2_button";
+			this._regionSelectDeploy2_button.Size = new System.Drawing.Size(100, 23);
+			this._regionSelectDeploy2_button.TabIndex = 21;
+			this._regionSelectDeploy2_button.Text = "Select Deploy2";
+			this._regionSelectDeploy2_button.UseVisualStyleBackColor = true;
+			this._regionSelectDeploy2_button.Click += new System.EventHandler(this._regionSelectDeploy2_button_Click);
 			// 
 			// _draw_panel
 			// 
@@ -703,10 +727,10 @@
 			((System.ComponentModel.ISupportInitialize)(this._canvasGridSize_numericUpDown)).EndInit();
 			this._toolbar_tabControl.ResumeLayout(false);
 			this._actions_tabPage.ResumeLayout(false);
+			this._obstacle_groupBox.ResumeLayout(false);
 			this._options_tabPage.ResumeLayout(false);
 			this._optionsDraw_groupBox.ResumeLayout(false);
 			this._optionsDraw_groupBox.PerformLayout();
-			this._obstacle_groupBox.ResumeLayout(false);
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -759,6 +783,8 @@
 		private System.Windows.Forms.Button _obstacleSelectAll_button;
 		private System.Windows.Forms.Button _obstacleDeselectAll_button;
 		private System.Windows.Forms.Button _obstacleSelectProj_button;
+		private System.Windows.Forms.Button _regionSelectDeploy2_button;
+		private System.Windows.Forms.Button _regionSelectDeploy1_button;
 	}
 }
 

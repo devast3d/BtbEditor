@@ -607,6 +607,31 @@ namespace BtbUI
 			Redraw();
 		}
 
+		private void SelectDeployRegions(int playerNumber)
+		{
+			_drawData.ClearRegions();
+
+			foreach (BTBLib.Region region in _battle.Regions)
+			{
+				if (playerNumber == 1)
+				{
+					if (region.IsP1DeployArea)
+					{
+						_drawData.AddRegion(region);
+					}
+				}
+				else
+				{
+					if (region.IsP2DeployArea)
+					{
+						_drawData.AddRegion(region);
+					}
+				}
+			}
+			UpdateTreeViewRegions();
+			Redraw();
+		}
+
 		private void SelectAllOpenRegions()
 		{
 			_drawData.ClearRegions();
@@ -1050,6 +1075,16 @@ namespace BtbUI
 		private void _regionSelectAllClosed_button_Click(object sender, EventArgs e)
 		{
 			SelectAllClosedRegions();
+		}
+
+		private void _regionSelectDeploy1_button_Click(object sender, EventArgs e)
+		{
+			SelectDeployRegions(1);
+		}
+
+		private void _regionSelectDeploy2_button_Click(object sender, EventArgs e)
+		{
+			SelectDeployRegions(2);
 		}
 
 		private void _regionSelectAllOpen_button_Click(object sender, EventArgs e)

@@ -56,6 +56,17 @@ namespace BtbUI
 			}
 		}
 
+		private void _copyStart_button_Click(object sender, EventArgs e)
+		{
+			StringBuilder sb = new StringBuilder();
+			foreach (var segment in _region.Lines)
+			{
+				sb.Append(VertexToString(segment.StartX, segment.StartY));
+			}
+			string text = sb.ToString();
+			Clipboard.SetText(text);
+		}
+
 		private void ShowPropertyEditor(int propertyIndex)
 		{
 			switch (propertyIndex)
