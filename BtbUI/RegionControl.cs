@@ -61,7 +61,7 @@ namespace BtbUI
 			StringBuilder sb = new StringBuilder();
 			foreach (var segment in _region.Lines)
 			{
-				sb.Append(VertexToString(segment.StartX, segment.StartY));
+				sb.Append(VertexToString(-segment.StartX, segment.StartY));
 			}
 			string text = sb.ToString();
 			Clipboard.SetText(text);
