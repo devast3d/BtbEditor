@@ -42,24 +42,32 @@ namespace BtbUI
 			{
 				return NodeType == NodeTypes.Region ? (BTBLib.Region)Link : null;
 			}
+
+			public BTBLib.Node GetObjectLink()
+			{
+				return NodeType == NodeTypes.GameObject ? (BTBLib.Node)Link : null;
+			}
 		}
 
 		private class DrawData
 		{
 			private List<BTBLib.Obstacle> _obstaclesToDraw;
 			private List<BTBLib.Region> _regionsToDraw;
+			private List<BTBLib.Node> _objectsToDraw;
 
 
 			public bool DrawObstacels { get; set; }
 			public IList<BTBLib.Obstacle> ObstacelsToDraw { get { return _obstaclesToDraw; } }
 			public bool DrawRegions { get; set; }
 			public IList<BTBLib.Region> RegionsToDraw { get { return _regionsToDraw; } }
-
+			public bool DrawObjects { get; set; }
+			public IList<BTBLib.Node> ObjectsToDraw { get { return _objectsToDraw; } }
 
 			public DrawData()
 			{
 				_obstaclesToDraw = new List<BTBLib.Obstacle>();
 				_regionsToDraw = new List<BTBLib.Region>();
+				_objectsToDraw = new List<BTBLib.Node>();
 			}
 
 
@@ -141,10 +149,30 @@ namespace BtbUI
 			}
 
 
+			public void AddObject(BTBLib.Node value)
+			{
+				if (!_objectsToDraw.Contains(value))
+				{
+					_objectsToDraw.Add(value);
+				}
+			}
+
+			public bool ContainsObject(BTBLib.Node value)
+			{
+				return _objectsToDraw.Contains(value);
+			}
+
+			public void ClearObjects()
+			{
+				_objectsToDraw.Clear();
+			}
+
+
 			public void Clear()
 			{
 				ClearObstacles();
 				ClearRegions();
+				ClearObjects();
 			}
 		}
 
@@ -170,6 +198,9 @@ namespace BtbUI
 		private BTBLib.Region _highlightedRegion;
 		private BTBLib.Region _selectedRegion;
 
+		private BTBLib.Node _highlightedObject;
+		private BTBLib.Node _selectedObject;
+
 		public MainForm()
 		{
 			InitializeComponent();
@@ -177,6 +208,7 @@ namespace BtbUI
 			_drawData = new DrawData();
 			_drawData.DrawObstacels = true;
 			_drawData.DrawRegions = true;
+			_drawData.DrawObjects = true;
 
 			ResetTransform();
 			SetRegionPenWidth(2.0f);
@@ -273,7 +305,21 @@ namespace BtbUI
 
 			foreach (BTBLib.Node gameObject in _battle.Nodes)
 			{
-				TreeNode gameObjetctNode = gameObjectsNode.Nodes.Add("GameObject");
+				string name;
+				if ((gameObject.Usage & Node.USAGE.ISUNIT) == Node.USAGE.ISUNIT)
+				{
+					name = "IsUnit";
+				}
+				else if ((gameObject.Usage & Node.USAGE.WAYPOINT) == Node.USAGE.WAYPOINT)
+				{
+					name = "Waypoint";
+				}
+				else
+				{
+					name = "GameObject";
+				}
+
+				TreeNode gameObjetctNode = gameObjectsNode.Nodes.Add(name);
 				gameObjetctNode.Tag = new TagData(NodeTypes.GameObject, gameObject);
 			}
 		}
@@ -286,6 +332,11 @@ namespace BtbUI
 		private TreeNode GetRegionsNode()
 		{
 			return _battle_treeView.Nodes[3];
+		}
+
+		private TreeNode GetObjectsNode()
+		{
+			return _battle_treeView.Nodes[4];
 		}
 
 		private void OpenBattle(string path)
@@ -313,6 +364,7 @@ namespace BtbUI
 
 			_region_groupBox.Enabled = true;
 			_obstacle_groupBox.Enabled = true;
+			_object_groupBox.Enabled = true;
 			_current_textBox.Text = path;
 			_background = null;
 			FindAndLoadBackground(Path.GetDirectoryName(path));
@@ -432,6 +484,23 @@ namespace BtbUI
 			graphics.FillRectangle(new SolidBrush(color), (obstacle.X) / 8f - 0.5f, (_battle.Height - obstacle.Y) / 8f - 0.5f, 1f, 1f);
 		}
 
+		private void DrawObject(Graphics graphics, Color color, bool fill, BTBLib.Node obj)
+		{
+			Pen pen = new Pen(color, 2.0f / _zoom);
+			
+			float radius = obj.Radius;
+			float size = radius * 2;
+			int div = 8;
+
+			if (fill)
+			{
+				Brush brush = new SolidBrush(Color.FromArgb(128, color.R, color.G, color.B));
+				graphics.FillEllipse(brush, (obj.X - radius) / div, (_battle.Height - obj.Y - radius) / div, size / div, size / div);
+			}
+
+			graphics.DrawEllipse(pen, (obj.X - radius) / div, (_battle.Height - obj.Y - radius) / div, size / div, size / div);
+		}
+
 		private void Draw(Graphics graphics)
 		{
 			if (_battle == null)
@@ -493,6 +562,36 @@ namespace BtbUI
 						c = Color.Black;
 					}
 					DrawObstacle(graphics, c, false, obstacle);
+				}
+			}
+
+			if (_drawData.DrawObjects)
+			{
+				foreach (BTBLib.Node node in _drawData.ObjectsToDraw)
+				{
+					Color c;
+					if ((node.Usage & Node.USAGE.ISUNIT) == Node.USAGE.ISUNIT)
+					{
+						c = node.ScriptFunc == 100 ? Color.Red : Color.White;
+					}
+					else if ((node.Usage & Node.USAGE.WAYPOINT) == Node.USAGE.WAYPOINT)
+					{
+						c = Color.Blue;
+					}
+					else
+					{
+						c = Color.Yellow;
+					}
+
+					DrawObject(graphics, c, false, node);
+				}
+				if (_selectedObject != null && _drawData.ContainsObject(_selectedObject))
+				{
+					DrawObject(graphics, Color.FromArgb(200, 0, 0), true, _selectedObject);
+				}
+				if (_highlightedObject != null && _highlightedObject != _selectedObject && _drawData.ContainsObject(_highlightedObject))
+				{
+					DrawObject(graphics, Color.FromArgb(255, 0, 0), true, _highlightedObject);
 				}
 			}
 		}
@@ -788,6 +887,96 @@ namespace BtbUI
 		}
 
 
+		private void SelectAllObjects()
+		{
+			_drawData.ClearObjects();
+			foreach (BTBLib.Node item in _battle.Nodes)
+			{
+				_drawData.AddObject(item);
+			}
+			UpdateTreeViewObjects();
+			Redraw();
+		}
+
+		private void SelectAllUnitObjects()
+		{
+			_drawData.ClearObjects();
+			foreach (BTBLib.Node item in _battle.Nodes)
+			{
+				if ((item.Usage & Node.USAGE.ISUNIT) == Node.USAGE.ISUNIT)
+				{
+					_drawData.AddObject(item);
+				}
+			}
+			UpdateTreeViewObjects();
+			Redraw();
+		}
+
+		private void SelectAllWayObjects()
+		{
+			_drawData.ClearObjects();
+			foreach (BTBLib.Node item in _battle.Nodes)
+			{
+				if ((item.Usage & Node.USAGE.WAYPOINT) == Node.USAGE.WAYPOINT)
+				{
+					_drawData.AddObject(item);
+				}
+			}
+			UpdateTreeViewObjects();
+			Redraw();
+		}
+		
+		private void SelectAllObjObjects()
+		{
+			_drawData.ClearObjects();
+			foreach (BTBLib.Node item in _battle.Nodes)
+			{
+				if (((item.Usage & Node.USAGE.ISUNIT) != Node.USAGE.ISUNIT) && ((item.Usage & Node.USAGE.WAYPOINT) != Node.USAGE.WAYPOINT))
+				{
+					_drawData.AddObject(item);
+				}
+			}
+			UpdateTreeViewObjects();
+			Redraw();
+		}
+
+		private void DeselectAllObjects()
+		{
+			_drawData.ClearObjects();
+			UpdateTreeViewRegions();
+			Redraw();
+		}
+
+		private void UpdateTreeViewObjects()
+		{
+			TreeNode objectsNode = GetObjectsNode();
+			foreach (TreeNode node in objectsNode.Nodes)
+			{
+				TagData tagData = node.Tag as TagData;
+				BTBLib.Node obj = tagData.GetObjectLink();
+				node.Checked = _drawData.ContainsObject(obj);
+			}
+		}
+
+		private void SetHighlightedObject(BTBLib.Node value)
+		{
+			if (_highlightedObject != value)
+			{
+				_highlightedObject = value;
+				Redraw();
+			}
+		}
+
+		private void SetSelectedObject(BTBLib.Node value)
+		{
+			if (_selectedObject != value)
+			{
+				_selectedObject = value;
+				Redraw();
+			}
+		}
+
+
 		private void SetGridSize(float value)
 		{
 			if (value != _gridSize)
@@ -948,6 +1137,15 @@ namespace BtbUI
 						}
 						break;
 
+					case NodeTypes.GameObject:
+						{
+							ObjectControl control = new ObjectControl();
+							control.SetData(tagData.GetObjectLink());
+							SetDetailsPanelControl(control);
+							SetSelectedObject(tagData.GetObjectLink());
+						}
+						break;
+
 					default:
 						{
 							ClearDetailsPanel();
@@ -974,20 +1172,27 @@ namespace BtbUI
 				{
 					SetHighlightedRegion(tagData.GetRegionLink());
 				}
+				else if (tagData.NodeType == NodeTypes.GameObject)
+				{
+					SetHighlightedObject(tagData.GetObjectLink());
+				}
 				else
 				{
 					SetHighlightedRegion(null);
+					SetHighlightedObject(null);
 				}
 			}
 			else
 			{
 				SetHighlightedRegion(null);
+				SetHighlightedObject(null);
 			}
 		}
 
 		private void _battle_treeView_MouseLeave(object sender, EventArgs e)
 		{
 			SetHighlightedRegion(null);
+			SetHighlightedObject(null);
 		}
 
 
@@ -1115,6 +1320,32 @@ namespace BtbUI
 		private void _regionPointSize_numericUpDown_ValueChanged(object sender, EventArgs e)
 		{
 			SetRegionPointSize((float)_regionPointSize_numericUpDown.Value);
+		}
+
+
+		private void _objectSelectAll_button_Click(object sender, EventArgs e)
+		{
+			SelectAllObjects();
+		}
+
+		private void _objectSelectUnit_button_Click(object sender, EventArgs e)
+		{
+			SelectAllUnitObjects();
+		}
+
+		private void _objectSelectWay_button_Click(object sender, EventArgs e)
+		{
+			SelectAllWayObjects();
+		}
+
+		private void _objectSelectObj_button_Click(object sender, EventArgs e)
+		{
+			SelectAllObjObjects();
+		}
+
+		private void _objectDeselectAll_button_Click(object sender, EventArgs e)
+		{
+			DeselectAllObjects();
 		}
 
 

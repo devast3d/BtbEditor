@@ -32,17 +32,15 @@
 			this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.label1 = new System.Windows.Forms.Label();
-			this._segments_listView = new System.Windows.Forms.ListView();
+			this._copyStart_button = new System.Windows.Forms.Button();
 			this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.columnHeader4 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-			this._copyStart_button = new System.Windows.Forms.Button();
+			this._segments_listView = new System.Windows.Forms.ListView();
 			this.SuspendLayout();
 			// 
 			// _properties_listView
 			// 
 			this._properties_listView.Alignment = System.Windows.Forms.ListViewAlignment.Default;
-			this._properties_listView.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
 			this._properties_listView.BorderStyle = System.Windows.Forms.BorderStyle.None;
 			this._properties_listView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.columnHeader1,
@@ -76,6 +74,26 @@
 			this.label1.TabIndex = 1;
 			this.label1.Text = "Segments";
 			// 
+			// _copyStart_button
+			// 
+			this._copyStart_button.Location = new System.Drawing.Point(0, 77);
+			this._copyStart_button.Name = "_copyStart_button";
+			this._copyStart_button.Size = new System.Drawing.Size(100, 23);
+			this._copyStart_button.TabIndex = 3;
+			this._copyStart_button.Text = "Copy Start";
+			this._copyStart_button.UseVisualStyleBackColor = true;
+			this._copyStart_button.Click += new System.EventHandler(this._copyStart_button_Click);
+			// 
+			// columnHeader3
+			// 
+			this.columnHeader3.Text = "Start";
+			this.columnHeader3.Width = 85;
+			// 
+			// columnHeader4
+			// 
+			this.columnHeader4.Text = "End";
+			this.columnHeader4.Width = 94;
+			// 
 			// _segments_listView
 			// 
 			this._segments_listView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -93,26 +111,6 @@
 			this._segments_listView.TabIndex = 2;
 			this._segments_listView.UseCompatibleStateImageBehavior = false;
 			this._segments_listView.View = System.Windows.Forms.View.Details;
-			// 
-			// columnHeader3
-			// 
-			this.columnHeader3.Text = "Start";
-			this.columnHeader3.Width = 85;
-			// 
-			// columnHeader4
-			// 
-			this.columnHeader4.Text = "End";
-			this.columnHeader4.Width = 94;
-			// 
-			// _copyStart_button
-			// 
-			this._copyStart_button.Location = new System.Drawing.Point(0, 77);
-			this._copyStart_button.Name = "_copyStart_button";
-			this._copyStart_button.Size = new System.Drawing.Size(100, 23);
-			this._copyStart_button.TabIndex = 3;
-			this._copyStart_button.Text = "Copy Start";
-			this._copyStart_button.UseVisualStyleBackColor = true;
-			this._copyStart_button.Click += new System.EventHandler(this._copyStart_button_Click);
 			// 
 			// RegionControl
 			// 
@@ -135,9 +133,9 @@
 		private System.Windows.Forms.ColumnHeader columnHeader1;
 		private System.Windows.Forms.ColumnHeader columnHeader2;
 		private System.Windows.Forms.Label label1;
-		private System.Windows.Forms.ListView _segments_listView;
+		private System.Windows.Forms.Button _copyStart_button;
 		private System.Windows.Forms.ColumnHeader columnHeader3;
 		private System.Windows.Forms.ColumnHeader columnHeader4;
-		private System.Windows.Forms.Button _copyStart_button;
+		private System.Windows.Forms.ListView _segments_listView;
 	}
 }

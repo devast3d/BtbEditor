@@ -51,6 +51,8 @@
 			this._regionPenWidth_numericUpDown = new System.Windows.Forms.NumericUpDown();
 			this._menu_label = new System.Windows.Forms.Label();
 			this._region_groupBox = new System.Windows.Forms.GroupBox();
+			this._regionSelectDeploy2_button = new System.Windows.Forms.Button();
+			this._regionSelectDeploy1_button = new System.Windows.Forms.Button();
 			this._calcWalkable_button = new System.Windows.Forms.Button();
 			this._regionFillSelected_checkBox = new System.Windows.Forms.CheckBox();
 			this._regionSelectAllOpen_button = new System.Windows.Forms.Button();
@@ -73,9 +75,14 @@
 			this._options_tabPage = new System.Windows.Forms.TabPage();
 			this._optionsDraw_groupBox = new System.Windows.Forms.GroupBox();
 			this._save_button = new System.Windows.Forms.Button();
-			this._regionSelectDeploy1_button = new System.Windows.Forms.Button();
-			this._regionSelectDeploy2_button = new System.Windows.Forms.Button();
+			this._delimeter1_panel = new System.Windows.Forms.Panel();
+			this._object_groupBox = new System.Windows.Forms.GroupBox();
+			this._objectSelectAll_button = new System.Windows.Forms.Button();
 			this._draw_panel = new BtbUI.AntiFlickerPanel();
+			this._objectSelectUnit_button = new System.Windows.Forms.Button();
+			this._objectSelectWay_button = new System.Windows.Forms.Button();
+			this._objectSelectObj_button = new System.Windows.Forms.Button();
+			this._objectDeselectAll_button = new System.Windows.Forms.Button();
 			this._main_panel.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this._main_splitContainer)).BeginInit();
 			this._main_splitContainer.Panel1.SuspendLayout();
@@ -97,6 +104,7 @@
 			this._obstacle_groupBox.SuspendLayout();
 			this._options_tabPage.SuspendLayout();
 			this._optionsDraw_groupBox.SuspendLayout();
+			this._object_groupBox.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// _open_button
@@ -117,7 +125,7 @@
 			this._main_panel.Controls.Add(this._main_splitContainer);
 			this._main_panel.Location = new System.Drawing.Point(12, 188);
 			this._main_panel.Name = "_main_panel";
-			this._main_panel.Size = new System.Drawing.Size(1344, 399);
+			this._main_panel.Size = new System.Drawing.Size(1674, 399);
 			this._main_panel.TabIndex = 1;
 			// 
 			// _main_splitContainer
@@ -142,8 +150,8 @@
 			this._main_splitContainer.Panel2.Controls.Add(this._zoom_label);
 			this._main_splitContainer.Panel2.Controls.Add(this._zoom_numericUpDown);
 			this._main_splitContainer.Panel2.Controls.Add(this._draw_panel);
-			this._main_splitContainer.Size = new System.Drawing.Size(1344, 399);
-			this._main_splitContainer.SplitterDistance = 257;
+			this._main_splitContainer.Size = new System.Drawing.Size(1674, 399);
+			this._main_splitContainer.SplitterDistance = 320;
 			this._main_splitContainer.TabIndex = 0;
 			// 
 			// _details_splitContainer
@@ -160,7 +168,7 @@
 			// _details_splitContainer.Panel2
 			// 
 			this._details_splitContainer.Panel2.Controls.Add(this._selectedItem_panel);
-			this._details_splitContainer.Size = new System.Drawing.Size(257, 399);
+			this._details_splitContainer.Size = new System.Drawing.Size(320, 399);
 			this._details_splitContainer.SplitterDistance = 231;
 			this._details_splitContainer.TabIndex = 0;
 			// 
@@ -174,7 +182,7 @@
 			this._battle_treeView.Location = new System.Drawing.Point(0, 0);
 			this._battle_treeView.Name = "_battle_treeView";
 			this._battle_treeView.ShowLines = false;
-			this._battle_treeView.Size = new System.Drawing.Size(257, 231);
+			this._battle_treeView.Size = new System.Drawing.Size(320, 231);
 			this._battle_treeView.TabIndex = 0;
 			this._battle_treeView.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this._battle_treeView_AfterSelect);
 			this._battle_treeView.MouseLeave += new System.EventHandler(this._battle_treeView_MouseLeave);
@@ -187,7 +195,7 @@
 			this._selectedItem_panel.Dock = System.Windows.Forms.DockStyle.Fill;
 			this._selectedItem_panel.Location = new System.Drawing.Point(0, 0);
 			this._selectedItem_panel.Name = "_selectedItem_panel";
-			this._selectedItem_panel.Size = new System.Drawing.Size(257, 164);
+			this._selectedItem_panel.Size = new System.Drawing.Size(320, 164);
 			this._selectedItem_panel.TabIndex = 0;
 			// 
 			// _canvasDrawGrid_checkBox
@@ -344,7 +352,7 @@
 			this._current_textBox.Location = new System.Drawing.Point(118, 43);
 			this._current_textBox.Name = "_current_textBox";
 			this._current_textBox.ReadOnly = true;
-			this._current_textBox.Size = new System.Drawing.Size(1238, 20);
+			this._current_textBox.Size = new System.Drawing.Size(1568, 20);
 			this._current_textBox.TabIndex = 5;
 			// 
 			// _regionPenWidth_label
@@ -393,14 +401,34 @@
 			this._region_groupBox.Controls.Add(this._regionSelectAllClosed_button);
 			this._region_groupBox.Controls.Add(this._regionDeselectAll_button);
 			this._region_groupBox.Controls.Add(this._regionSelectAll_button);
-			this._region_groupBox.Dock = System.Windows.Forms.DockStyle.Fill;
+			this._region_groupBox.Dock = System.Windows.Forms.DockStyle.Left;
 			this._region_groupBox.Enabled = false;
 			this._region_groupBox.Location = new System.Drawing.Point(439, 3);
 			this._region_groupBox.Name = "_region_groupBox";
-			this._region_groupBox.Size = new System.Drawing.Size(788, 77);
+			this._region_groupBox.Size = new System.Drawing.Size(641, 77);
 			this._region_groupBox.TabIndex = 11;
 			this._region_groupBox.TabStop = false;
 			this._region_groupBox.Text = "Region";
+			// 
+			// _regionSelectDeploy2_button
+			// 
+			this._regionSelectDeploy2_button.Location = new System.Drawing.Point(324, 19);
+			this._regionSelectDeploy2_button.Name = "_regionSelectDeploy2_button";
+			this._regionSelectDeploy2_button.Size = new System.Drawing.Size(100, 23);
+			this._regionSelectDeploy2_button.TabIndex = 21;
+			this._regionSelectDeploy2_button.Text = "Select Deploy2";
+			this._regionSelectDeploy2_button.UseVisualStyleBackColor = true;
+			this._regionSelectDeploy2_button.Click += new System.EventHandler(this._regionSelectDeploy2_button_Click);
+			// 
+			// _regionSelectDeploy1_button
+			// 
+			this._regionSelectDeploy1_button.Location = new System.Drawing.Point(218, 19);
+			this._regionSelectDeploy1_button.Name = "_regionSelectDeploy1_button";
+			this._regionSelectDeploy1_button.Size = new System.Drawing.Size(100, 23);
+			this._regionSelectDeploy1_button.TabIndex = 20;
+			this._regionSelectDeploy1_button.Text = "Select Deploy1";
+			this._regionSelectDeploy1_button.UseVisualStyleBackColor = true;
+			this._regionSelectDeploy1_button.Click += new System.EventHandler(this._regionSelectDeploy1_button_Click);
 			// 
 			// _calcWalkable_button
 			// 
@@ -535,18 +563,20 @@
 			this._toolbar_tabControl.Location = new System.Drawing.Point(118, 73);
 			this._toolbar_tabControl.Name = "_toolbar_tabControl";
 			this._toolbar_tabControl.SelectedIndex = 0;
-			this._toolbar_tabControl.Size = new System.Drawing.Size(1238, 109);
+			this._toolbar_tabControl.Size = new System.Drawing.Size(1568, 109);
 			this._toolbar_tabControl.TabIndex = 14;
 			// 
 			// _actions_tabPage
 			// 
+			this._actions_tabPage.Controls.Add(this._object_groupBox);
+			this._actions_tabPage.Controls.Add(this._delimeter1_panel);
 			this._actions_tabPage.Controls.Add(this._region_groupBox);
 			this._actions_tabPage.Controls.Add(this._delimeter0_panel);
 			this._actions_tabPage.Controls.Add(this._obstacle_groupBox);
 			this._actions_tabPage.Location = new System.Drawing.Point(4, 22);
 			this._actions_tabPage.Name = "_actions_tabPage";
 			this._actions_tabPage.Padding = new System.Windows.Forms.Padding(3);
-			this._actions_tabPage.Size = new System.Drawing.Size(1230, 83);
+			this._actions_tabPage.Size = new System.Drawing.Size(1560, 83);
 			this._actions_tabPage.TabIndex = 0;
 			this._actions_tabPage.Text = "Actions";
 			this._actions_tabPage.UseVisualStyleBackColor = true;
@@ -620,7 +650,7 @@
 			this._options_tabPage.Location = new System.Drawing.Point(4, 22);
 			this._options_tabPage.Name = "_options_tabPage";
 			this._options_tabPage.Padding = new System.Windows.Forms.Padding(3);
-			this._options_tabPage.Size = new System.Drawing.Size(1230, 83);
+			this._options_tabPage.Size = new System.Drawing.Size(1433, 83);
 			this._options_tabPage.TabIndex = 1;
 			this._options_tabPage.Text = "Options";
 			this._options_tabPage.UseVisualStyleBackColor = true;
@@ -636,7 +666,7 @@
 			this._optionsDraw_groupBox.Dock = System.Windows.Forms.DockStyle.Fill;
 			this._optionsDraw_groupBox.Location = new System.Drawing.Point(3, 3);
 			this._optionsDraw_groupBox.Name = "_optionsDraw_groupBox";
-			this._optionsDraw_groupBox.Size = new System.Drawing.Size(1224, 77);
+			this._optionsDraw_groupBox.Size = new System.Drawing.Size(1427, 77);
 			this._optionsDraw_groupBox.TabIndex = 29;
 			this._optionsDraw_groupBox.TabStop = false;
 			this._optionsDraw_groupBox.Text = "Draw";
@@ -652,25 +682,39 @@
 			this._save_button.UseVisualStyleBackColor = true;
 			this._save_button.Click += new System.EventHandler(this._save_button_Click);
 			// 
-			// _regionSelectDeploy1_button
+			// _delimeter1_panel
 			// 
-			this._regionSelectDeploy1_button.Location = new System.Drawing.Point(218, 19);
-			this._regionSelectDeploy1_button.Name = "_regionSelectDeploy1_button";
-			this._regionSelectDeploy1_button.Size = new System.Drawing.Size(100, 23);
-			this._regionSelectDeploy1_button.TabIndex = 20;
-			this._regionSelectDeploy1_button.Text = "Select Deploy1";
-			this._regionSelectDeploy1_button.UseVisualStyleBackColor = true;
-			this._regionSelectDeploy1_button.Click += new System.EventHandler(this._regionSelectDeploy1_button_Click);
+			this._delimeter1_panel.Dock = System.Windows.Forms.DockStyle.Left;
+			this._delimeter1_panel.Location = new System.Drawing.Point(1080, 3);
+			this._delimeter1_panel.Name = "_delimeter1_panel";
+			this._delimeter1_panel.Size = new System.Drawing.Size(5, 77);
+			this._delimeter1_panel.TabIndex = 14;
 			// 
-			// _regionSelectDeploy2_button
+			// _object_groupBox
 			// 
-			this._regionSelectDeploy2_button.Location = new System.Drawing.Point(324, 19);
-			this._regionSelectDeploy2_button.Name = "_regionSelectDeploy2_button";
-			this._regionSelectDeploy2_button.Size = new System.Drawing.Size(100, 23);
-			this._regionSelectDeploy2_button.TabIndex = 21;
-			this._regionSelectDeploy2_button.Text = "Select Deploy2";
-			this._regionSelectDeploy2_button.UseVisualStyleBackColor = true;
-			this._regionSelectDeploy2_button.Click += new System.EventHandler(this._regionSelectDeploy2_button_Click);
+			this._object_groupBox.Controls.Add(this._objectDeselectAll_button);
+			this._object_groupBox.Controls.Add(this._objectSelectObj_button);
+			this._object_groupBox.Controls.Add(this._objectSelectWay_button);
+			this._object_groupBox.Controls.Add(this._objectSelectUnit_button);
+			this._object_groupBox.Controls.Add(this._objectSelectAll_button);
+			this._object_groupBox.Dock = System.Windows.Forms.DockStyle.Fill;
+			this._object_groupBox.Enabled = false;
+			this._object_groupBox.Location = new System.Drawing.Point(1085, 3);
+			this._object_groupBox.Name = "_object_groupBox";
+			this._object_groupBox.Size = new System.Drawing.Size(472, 77);
+			this._object_groupBox.TabIndex = 15;
+			this._object_groupBox.TabStop = false;
+			this._object_groupBox.Text = "Object";
+			// 
+			// _objectSelectAll_button
+			// 
+			this._objectSelectAll_button.Location = new System.Drawing.Point(6, 19);
+			this._objectSelectAll_button.Name = "_objectSelectAll_button";
+			this._objectSelectAll_button.Size = new System.Drawing.Size(100, 23);
+			this._objectSelectAll_button.TabIndex = 13;
+			this._objectSelectAll_button.Text = "Select All";
+			this._objectSelectAll_button.UseVisualStyleBackColor = true;
+			this._objectSelectAll_button.Click += new System.EventHandler(this._objectSelectAll_button_Click);
 			// 
 			// _draw_panel
 			// 
@@ -680,7 +724,7 @@
 			this._draw_panel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(125)))), ((int)(((byte)(125)))), ((int)(((byte)(125)))));
 			this._draw_panel.Location = new System.Drawing.Point(0, 0);
 			this._draw_panel.Name = "_draw_panel";
-			this._draw_panel.Size = new System.Drawing.Size(1083, 367);
+			this._draw_panel.Size = new System.Drawing.Size(1350, 367);
 			this._draw_panel.TabIndex = 0;
 			this._draw_panel.Paint += new System.Windows.Forms.PaintEventHandler(this._draw_panel_Paint);
 			this._draw_panel.MouseDown += new System.Windows.Forms.MouseEventHandler(this._draw_panel_MouseDown);
@@ -688,11 +732,51 @@
 			this._draw_panel.MouseMove += new System.Windows.Forms.MouseEventHandler(this._draw_panel_MouseMove);
 			this._draw_panel.MouseUp += new System.Windows.Forms.MouseEventHandler(this._draw_panel_MouseUp);
 			// 
+			// _objectSelectUnit_button
+			// 
+			this._objectSelectUnit_button.Location = new System.Drawing.Point(112, 19);
+			this._objectSelectUnit_button.Name = "_objectSelectUnit_button";
+			this._objectSelectUnit_button.Size = new System.Drawing.Size(100, 23);
+			this._objectSelectUnit_button.TabIndex = 14;
+			this._objectSelectUnit_button.Text = "Select All Unit";
+			this._objectSelectUnit_button.UseVisualStyleBackColor = true;
+			this._objectSelectUnit_button.Click += new System.EventHandler(this._objectSelectUnit_button_Click);
+			// 
+			// _objectSelectWay_button
+			// 
+			this._objectSelectWay_button.Location = new System.Drawing.Point(218, 19);
+			this._objectSelectWay_button.Name = "_objectSelectWay_button";
+			this._objectSelectWay_button.Size = new System.Drawing.Size(100, 23);
+			this._objectSelectWay_button.TabIndex = 15;
+			this._objectSelectWay_button.Text = "Select All Way";
+			this._objectSelectWay_button.UseVisualStyleBackColor = true;
+			this._objectSelectWay_button.Click += new System.EventHandler(this._objectSelectWay_button_Click);
+			// 
+			// _objectSelectObj_button
+			// 
+			this._objectSelectObj_button.Location = new System.Drawing.Point(324, 19);
+			this._objectSelectObj_button.Name = "_objectSelectObj_button";
+			this._objectSelectObj_button.Size = new System.Drawing.Size(100, 23);
+			this._objectSelectObj_button.TabIndex = 16;
+			this._objectSelectObj_button.Text = "Select All Obj";
+			this._objectSelectObj_button.UseVisualStyleBackColor = true;
+			this._objectSelectObj_button.Click += new System.EventHandler(this._objectSelectObj_button_Click);
+			// 
+			// _objectDeselectAll_button
+			// 
+			this._objectDeselectAll_button.Location = new System.Drawing.Point(430, 19);
+			this._objectDeselectAll_button.Name = "_objectDeselectAll_button";
+			this._objectDeselectAll_button.Size = new System.Drawing.Size(100, 23);
+			this._objectDeselectAll_button.TabIndex = 22;
+			this._objectDeselectAll_button.Text = "Deselect All";
+			this._objectDeselectAll_button.UseVisualStyleBackColor = true;
+			this._objectDeselectAll_button.Click += new System.EventHandler(this._objectDeselectAll_button_Click);
+			// 
 			// MainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(1368, 599);
+			this.ClientSize = new System.Drawing.Size(1698, 599);
 			this.Controls.Add(this._save_button);
 			this.Controls.Add(this._toolbar_tabControl);
 			this.Controls.Add(this._toolbar_label);
@@ -731,6 +815,7 @@
 			this._options_tabPage.ResumeLayout(false);
 			this._optionsDraw_groupBox.ResumeLayout(false);
 			this._optionsDraw_groupBox.PerformLayout();
+			this._object_groupBox.ResumeLayout(false);
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -785,6 +870,13 @@
 		private System.Windows.Forms.Button _obstacleSelectProj_button;
 		private System.Windows.Forms.Button _regionSelectDeploy2_button;
 		private System.Windows.Forms.Button _regionSelectDeploy1_button;
+		private System.Windows.Forms.GroupBox _object_groupBox;
+		private System.Windows.Forms.Panel _delimeter1_panel;
+		private System.Windows.Forms.Button _objectSelectAll_button;
+		private System.Windows.Forms.Button _objectSelectWay_button;
+		private System.Windows.Forms.Button _objectSelectUnit_button;
+		private System.Windows.Forms.Button _objectDeselectAll_button;
+		private System.Windows.Forms.Button _objectSelectObj_button;
 	}
 }
 

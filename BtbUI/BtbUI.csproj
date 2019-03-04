@@ -69,6 +69,12 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ObjectControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ObjectControl.Designer.cs">
+      <DependentUpon>ObjectControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="RegionControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -105,6 +111,9 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="ObjectControl.resx">
+      <DependentUpon>ObjectControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="RegionControl.resx">
       <DependentUpon>RegionControl.cs</DependentUpon>
     </EmbeddedResource>
